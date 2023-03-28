@@ -94,8 +94,8 @@ export default function Mainpage() {
     <ThemeProvider theme={contenttheme}>
       <Grid container >
         <Grid container xs={12} sx={{ height: '20vh', textAlign: 'center', justifyContent: 'center' }}>
-          <Paper elevation={10} sx={{ width: { xs: '100%', sm: '50%' }, height: { xs: '90%', sm: '90% ' }, mt: '8%' }}>
-            <Grid container sx={{ height: '18vh', border: '1px red solid', mb: '3%', alignItems: 'center', justifyContent: 'center' }}>
+          <Paper elevation={10} sx={{ width: { xs: '100%', sm: '50%' }, height: { xs: '90%', sm: '90% ' }, mt: '2%' }}>
+            <Grid container sx={{ height: '18vh',  mb: '3%', alignItems: 'center', justifyContent: 'center' }}>
               <Grid xs={3} >
                 <Typography color='#30334f' variant='h5'>
                   Random Vocab:
@@ -103,7 +103,7 @@ export default function Mainpage() {
               </Grid>
               <Grid xs={5}>
                 <Typography color='#30334f' variant='h3'>
-                  {rand}
+                  {rand.word}
                 </Typography>
               </Grid>
               <Grid xs={3}>
@@ -116,7 +116,7 @@ export default function Mainpage() {
         </Grid>
 
         <Grid container xs={12} sx={{ height: '90vh ', textAlign: 'center', justifyContent: 'center' }}>
-          <Paper elevation={10} sx={{ width: { xs: '100%', sm: '50%' }, height: { xs: '100%', sm: '80% ' }, mt: '10%', mb: '10%' }}>
+          <Paper elevation={10} sx={{ width: { xs: '100%', sm: '50%' }, height: { xs: '100%', sm: '80% ' }, mt: '5%', mb: '10%' }}>
             <Grid container sx={{ mt: '3%', alignItems: 'center' }}>
               <Grid xsOffset={3} smOffset={4} xs={5} sm={4}>
                 <Typography color='#30334f' variant='h4'>Today's Vocab</Typography>

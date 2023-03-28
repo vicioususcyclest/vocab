@@ -130,7 +130,7 @@ export default function History() {
 
             <Grid container >
                 <Grid container xs={12} sx={{ height: '90vh ', textAlign: 'center', justifyContent: 'center' }}>
-                    <Paper elevation={10} sx={{ overflow: 'auto', width: { xs: '100%', sm: '90%' }, height: { xs: '100%', sm: '80% ' }, mt: '5%', mb: '10%' }}>
+                    <Paper elevation={10} sx={{ overflow: 'hidden', width: { xs: '100%', sm: '90%' }, height: { xs: '100%', sm: '80% ' }, mt: '5%', mb: '10%' }}>
                         <Grid container sx={{ mt: '3%', alignItems: 'center', justifyContent: 'center' }}>
                             <Grid >
                                 <FormGroup >

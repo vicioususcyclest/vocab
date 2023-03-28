@@ -62,7 +62,7 @@ export default function Header() {
     return (
         <ThemeProvider theme={theme}>
             <Grid>
-                {<AppBar color='header' component="nav">
+                <AppBar position="sticky" color='header' component="nav">
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -108,7 +108,7 @@ export default function Header() {
                             ))}
                         </Grid>
                     </Toolbar>
-                </AppBar>}
+                </AppBar>
                 <Grid component="nav">
                     <Drawer
                         variant="temporary"
