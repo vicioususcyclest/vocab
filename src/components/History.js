@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles'//import theme (to config some style) 
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles'//import themeHis (to config some style) 
 import Typography from '@mui/material/Typography';
 import { Toolbar, Switch, FormGroup, FormControlLabel, Checkbox, useTheme, useMediaQuery, TextField, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -22,29 +22,98 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function History() {
 
+    const [sortBy, setSortBy] = useState('word'); //Default sort state by vocab
+    const [sortOrder, setSortOrder] = useState('asc');
     const [showall, setshowall] = useState('block')
     const [showday, setshowday] = useState('none')
+    const [disdate, setdisdate] = useState(true)
+    const [date, setdate] = useState('')
 
-    const newdata = () => {
-        const unique2 = Data.data.filter((obj, index) => {
+    const handleSort = (column) => { //function to change the asc/desc after clicking
+        console.log(sortBy)
+        console.log(column)
+        if (sortBy === column) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(column);
+            setSortOrder('asc');
+        }
+    };
+
+
+
+    useEffect(() => { }, [date])
+
+    //Use the sorted data to sort
+
+
+    const allnewdata = () => {
+        const unique1 = Data.data.filter((obj, index) => {
             return index === Data.data.findIndex(o => obj.word === o.word);
         });
+        unique1.map((item, index) => { item.word = item.word.toLowerCase() })
+        return (unique1 != []) ? unique1 : []
+    }
+
+    const sortedallRows = allnewdata().sort((a, b) => { //compare each element in the array
+        if (sortOrder === 'asc') {
+            //if asc, 1st element in column "sortBy" > 2nd
+            // it will return 1 (if return value>0, Sort a after b)
+            // else, it will return -1 (if return value<0, Sort a before b)
+            // sort till the end of the array
+            return a[sortBy] > b[sortBy] ? 1 : -1;
+        } else {
+            return a[sortBy] < b[sortBy] ? 1 : -1;
+        }
+    });
+
+
+    const daynewdata = () => {
+        const unique2 = Data.data.filter((obj, index) => {
+            var dayselected = new Date(date.toString());
+            return (index === Data.data.findIndex(o => obj.word === o.word) &&
+                new Date(obj.addDateTime).getDate() === dayselected.getDate() &&
+                new Date(obj.addDateTime).getMonth() === dayselected.getMonth() &&
+                new Date(obj.addDateTime).getFullYear() === dayselected.getFullYear()
+            )
+        });
+        unique2.map((item, index) => { item.word = item.word.toLowerCase() })
         return unique2
     }
+
+    const sorteddayRows = daynewdata().sort((a, b) => { //compare each element in the array
+        if (sortOrder === 'asc') {
+            //if asc, 1st element in column "sortBy" > 2nd
+            // it will return 1 (if return value>0, Sort a after b)
+            // else, it will return -1 (if return value<0, Sort a before b)
+            // sort till the end of the array
+            return a[sortBy] > b[sortBy] ? 1 : -1;
+        } else {
+            return a[sortBy] < b[sortBy] ? 1 : -1;
+        }
+    });
+
+
 
     function setallorday(checked) {
         if (checked) {
             setshowday('none')
+            setdisdate(true)
             setshowall('block')
+            setSortBy('word');
+            setSortOrder('asc');
         } else {
             setshowday('block')
+            setdisdate(false)
             setshowall('none')
+            setSortBy('word');
+            setSortOrder('asc');
         }
     }
 
     useEffect(() => { }, [showday])
 
-    const theme = createTheme({
+    const themeHis = createTheme({
         typography: {
             fontFamily: 'Lilita One',
         },
@@ -57,7 +126,7 @@ export default function History() {
     });
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={themeHis}>
             <Toolbar />
             <Grid container >
                 <Grid container xs={12} sx={{ height: '90vh ', textAlign: 'center', justifyContent: 'center' }}>
@@ -70,7 +139,7 @@ export default function History() {
                             </Grid>
                             <Grid xs={6}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker />
+                                    <DatePicker value={date} onChange={(e) => setdate(e)} disabled={disdate} />
                                 </LocalizationProvider>
                             </Grid>
                             <Grid xs={10} >
@@ -81,30 +150,37 @@ export default function History() {
                                             <TableRow>
 
                                                 <TableCell align='center'>
-                                                    {/* <IconButton size="small" onClick={() => handleSort('Company')}> */}
-                                                    Vocab
-                                                    {/* {sortBy === 'Company' && sortOrder === 'asc' && <ArrowDownwardIcon />}
-                                                        {sortBy === 'Company' && sortOrder === 'desc' && <ArrowUpwardIcon />}
-                                                    </IconButton> */}
+                                                    <IconButton size="small" onClick={() => handleSort('word')} sx={{ fontFamily: themeHis.typography.fontFamily }}>
+                                                        Vocab
+                                                        {sortBy === 'word' && sortOrder === 'asc' && <ArrowDownwardIcon />}
+                                                        {sortBy === 'word' && sortOrder === 'desc' && <ArrowUpwardIcon />}
+                                                    </IconButton>
                                                 </TableCell>
                                                 <TableCell align='center'>
-                                                    {/* <IconButton size="small" onClick={() => handleSort('Industry')}> */}
-                                                    Chinese
-                                                    {/* {sortBy === 'Industry' && sortOrder === 'asc' && <ArrowDownwardIcon />}
-                                                        {sortBy === 'Industry' && sortOrder === 'desc' && <ArrowUpwardIcon />}
-                                                    </IconButton> */}
+                                                    <IconButton size="small" onClick={() => { }} sx={{ fontFamily: themeHis.typography.fontFamily }}>
+                                                        Chinese
+                                                        {sortBy === 'chinese' && sortOrder === 'asc' && <ArrowDownwardIcon />}
+                                                        {sortBy === 'chinese' && sortOrder === 'desc' && <ArrowUpwardIcon />}
+                                                    </IconButton>
                                                 </TableCell>
                                                 <TableCell align='center' >
-                                                    {/* <IconButton size="small" onClick={() => handleSort('Position')}> */}
-                                                    Learnt
-                                                    {/* {sortBy === 'Position' && sortOrder === 'asc' && <ArrowDownwardIcon />}
-                                                        {sortBy === 'Position' && sortOrder === 'desc' && <ArrowUpwardIcon />}
-                                                    </IconButton> */}
+                                                    <IconButton size="small" onClick={() => handleSort('learnt')} sx={{ fontFamily: themeHis.typography.fontFamily }}>
+                                                        Learnt
+                                                        {sortBy === 'learnt' && sortOrder === 'asc' && <ArrowDownwardIcon />}
+                                                        {sortBy === 'learnt' && sortOrder === 'desc' && <ArrowUpwardIcon />}
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell align='center' >
+                                                    <IconButton size="small" onClick={() => handleSort('addDateTime')} sx={{ fontFamily: themeHis.typography.fontFamily }}>
+                                                        Added Date
+                                                        {sortBy === 'addDateTime' && sortOrder === 'asc' && <ArrowDownwardIcon />}
+                                                        {sortBy === 'addDateTime' && sortOrder === 'desc' && <ArrowUpwardIcon />}
+                                                    </IconButton>
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {newdata().map((item, index) => (
+                                            {sortedallRows.map((item, index) => (
                                                 <TableRow
                                                     key={item.word}
                                                 //sx={{ '&:last-child td, &:last-child th': { border: 0 } }} //Useless in this prog
@@ -118,6 +194,9 @@ export default function History() {
                                                             disableRipple
                                                             checked={item.learnt}
                                                         />
+                                                    </TableCell>
+                                                    <TableCell align='center'>
+                                                        {new Date(item.addDateTime).getFullYear()}/{new Date(item.addDateTime).getMonth() + 1}/{new Date(item.addDateTime).getDate()}
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -130,30 +209,37 @@ export default function History() {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell align='center'>
-                                                    {/* <IconButton size="small" onClick={() => handleSort('Company')}> */}
-                                                    Vocab
-                                                    {/* {sortBy === 'Company' && sortOrder === 'asc' && <ArrowDownwardIcon />}
-                                                        {sortBy === 'Company' && sortOrder === 'desc' && <ArrowUpwardIcon />}
-                                                    </IconButton> */}
+                                                    <IconButton size="small" onClick={() => handleSort('word')} sx={{ fontFamily: themeHis.typography.fontFamily }}>
+                                                        Vocab
+                                                        {sortBy === 'word' && sortOrder === 'asc' && <ArrowDownwardIcon />}
+                                                        {sortBy === 'word' && sortOrder === 'desc' && <ArrowUpwardIcon />}
+                                                    </IconButton>
                                                 </TableCell>
                                                 <TableCell align='center'>
-                                                    {/* <IconButton size="small" onClick={() => handleSort('Industry')}> */}
-                                                    Chinese
-                                                    {/* {sortBy === 'Industry' && sortOrder === 'asc' && <ArrowDownwardIcon />}
-                                                        {sortBy === 'Industry' && sortOrder === 'desc' && <ArrowUpwardIcon />}
-                                                    </IconButton> */}
+                                                    <IconButton size="small" onClick={() => { }} sx={{ fontFamily: themeHis.typography.fontFamily }}>
+                                                        Chinese
+                                                        {sortBy === 'chinese' && sortOrder === 'asc' && <ArrowDownwardIcon />}
+                                                        {sortBy === 'chinese' && sortOrder === 'desc' && <ArrowUpwardIcon />}
+                                                    </IconButton>
                                                 </TableCell>
                                                 <TableCell align='center' >
-                                                    {/* <IconButton size="small" onClick={() => handleSort('Position')}> */}
-                                                    Learnt
-                                                    {/* {sortBy === 'Position' && sortOrder === 'asc' && <ArrowDownwardIcon />}
-                                                        {sortBy === 'Position' && sortOrder === 'desc' && <ArrowUpwardIcon />}
-                                                    </IconButton> */}
+                                                    <IconButton size="small" onClick={() => handleSort('learnt')} sx={{ fontFamily: themeHis.typography.fontFamily }}>
+                                                        Learnt
+                                                        {sortBy === 'learnt' && sortOrder === 'asc' && <ArrowDownwardIcon />}
+                                                        {sortBy === 'learnt' && sortOrder === 'desc' && <ArrowUpwardIcon />}
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell align='center' >
+                                                    <IconButton size="small" onClick={() => handleSort('addDateTime')} sx={{ fontFamily: themeHis.typography.fontFamily }}>
+                                                        Added Date
+                                                        {sortBy === 'addDateTime' && sortOrder === 'asc' && <ArrowDownwardIcon />}
+                                                        {sortBy === 'addDateTime' && sortOrder === 'desc' && <ArrowUpwardIcon />}
+                                                    </IconButton>
                                                 </TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {newdata().map((item, index) => (
+                                            {sorteddayRows.map((item, index) => (
                                                 <TableRow
                                                     key={item.word}
                                                 //sx={{ '&:last-child td, &:last-child th': { border: 0 } }} //Useless in this prog
@@ -168,6 +254,9 @@ export default function History() {
                                                             checked={item.learnt}
                                                         />
                                                     </TableCell>
+                                                    <TableCell align='center' >
+                                                        {new Date(item.addDateTime).getFullYear()}/{new Date(item.addDateTime).getMonth() + 1}/{new Date(item.addDateTime).getDate()}
+                                                    </TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -177,7 +266,7 @@ export default function History() {
                         </Grid>
                     </Paper>
                 </Grid>
-            </Grid>
-        </ThemeProvider>
+            </Grid >
+        </ThemeProvider >
     )
 }

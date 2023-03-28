@@ -39,9 +39,9 @@ export default function Addvocab() {
 
                     </DialogTitle>
                     <DialogContent>
-                        <DialogContentText variant='body'>
-                            <Typography color='#30334f' variant='h5'> Please enter the vocab:</Typography>
-                        </DialogContentText>
+                        {/* <DialogContentText variant='body'> */}
+                        <Typography color='#30334f' variant='h5'> Please enter the vocab:</Typography>
+                        {/* </DialogContentText> */}
                         <TextField
                             autoFocus
                             margin="dense"
