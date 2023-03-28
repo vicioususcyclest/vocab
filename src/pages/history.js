@@ -7,7 +7,7 @@ export default function history() {
     return (
 
         <Grid container sx={{ justifyContent: 'center', width: '100%', }}>
-
+            <Toolbar />
             <Grid xs={12} >
                 <Header />
             </Grid>

@@ -28,6 +28,9 @@ export default function Header() {
     };
 
     const theme = createTheme({
+        typography: {
+            fontFamily: 'Lilita One',
+        },
         palette: {
             header: {
                 main: '#30334f',

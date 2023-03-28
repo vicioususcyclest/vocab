@@ -5,12 +5,12 @@ import Toolbar from '@mui/material/Toolbar';
 
 export default function mainpage() {
     return (
-        <Grid container sx={{ justifyContent: 'center', width: '100%', border: '1px solid red' }}>
-
-            <Grid xs={12} sx={{ border: '1px solid blue' }}>
+        <Grid container sx={{ justifyContent: 'center', width: '100%', }}>
+            <Toolbar />
+            <Grid xs={12} >
                 <Header />
             </Grid>
-            <Grid xs={12} sx={{ border: '1px solid red', mt: { xs: '20px', sm: '0px' } }}>
+            <Grid xs={12} sx={{ mt: { xs: '20px', sm: '0px' } }}>
                 <Mainpage />
             </Grid>
 

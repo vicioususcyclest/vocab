@@ -6,6 +6,7 @@ import { Checkbox, useTheme, useMediaQuery, TextField, Paper, Button, Dialog, Di
 import AddIcon from '@mui/icons-material/Add';
 import { useEffect, useState } from 'react';
 import Data from '../asset/data.json'
+import Randvbdata from '../asset/random.json'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,7 +16,7 @@ import TableRow from '@mui/material/TableRow';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import IconButton from '@mui/material/IconButton';
-
+import CasinoIcon from '@mui/icons-material/Casino';
 
 const contenttheme = createTheme({ //Create a theme which set the color
   typography: {
@@ -35,6 +36,14 @@ const contenttheme = createTheme({ //Create a theme which set the color
 export default function Mainpage() {
   const [sortBy, setSortBy] = useState('word'); //Default sort state by vocab
   const [sortOrder, setSortOrder] = useState('asc');
+  const [rand, setRand] = useState('');
+
+  function getrand() {
+    var max = Math.floor(Randvbdata.Randvb.length);
+    setRand(Randvbdata.Randvb[Math.floor(Math.random() * (max))])
+  }
+
+  useEffect(() => { }, [rand])
 
   const newdata = () => {
     const unique1 = Data.data.filter((obj, index) => {
@@ -84,11 +93,33 @@ export default function Mainpage() {
   return (
     <ThemeProvider theme={contenttheme}>
       <Grid container >
+        <Grid container xs={12} sx={{ height: '20vh', textAlign: 'center', justifyContent: 'center' }}>
+          <Paper elevation={10} sx={{ width: { xs: '100%', sm: '50%' }, height: { xs: '90%', sm: '90% ' }, mt: '8%' }}>
+            <Grid container sx={{ height: '18vh', border: '1px red solid', mb: '3%', alignItems: 'center', justifyContent: 'center' }}>
+              <Grid xs={3} >
+                <Typography color='#30334f' variant='h5'>
+                  Random Vocab:
+                </Typography>
+              </Grid>
+              <Grid xs={5}>
+                <Typography color='#30334f' variant='h3'>
+                  {rand}
+                </Typography>
+              </Grid>
+              <Grid xs={3}>
+                <IconButton color='header' size='large' onClick={() => { getrand() }} >
+                  <CasinoIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+
         <Grid container xs={12} sx={{ height: '90vh ', textAlign: 'center', justifyContent: 'center' }}>
           <Paper elevation={10} sx={{ width: { xs: '100%', sm: '50%' }, height: { xs: '100%', sm: '80% ' }, mt: '10%', mb: '10%' }}>
             <Grid container sx={{ mt: '3%', alignItems: 'center' }}>
-              <Grid xsOffset={3} xs={5}>
-                <Typography color='#30334f' variant='h3'>Today's Vocab</Typography>
+              <Grid xsOffset={3} smOffset={4} xs={5} sm={4}>
+                <Typography color='#30334f' variant='h4'>Today's Vocab</Typography>
               </Grid>
 
               <Grid xsOffset={1} xs={2} smOffset={0} sm={4} >
