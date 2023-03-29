@@ -1,3 +1,4 @@
+import axios from "axios";
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles'//import theme (to config some style) 
@@ -37,11 +38,43 @@ export default function Mainpage() {
   const [sortBy, setSortBy] = useState('word'); //Default sort state by vocab
   const [sortOrder, setSortOrder] = useState('asc');
   const [rand, setRand] = useState('');
+  // const [baseURL, setBaseURL] = useState('API.com/');
+  // const [Data, setData] = useState({ data: [] });
 
   function getrand() {
     var max = Math.floor(Randvbdata.Randvb.length);
     setRand(Randvbdata.Randvb[Math.floor(Math.random() * (max))])
   }
+
+  // useEffect(() => {
+  //   axios.get(baseURL).then((response) => {
+  //     setData({ data: response.data });
+  //   });
+  // }, []);
+
+  // function createvocab() {
+  //   axios.post(baseURL, {
+  //     word: "Vocab",
+  //     chinese: "Chinese",
+  //     addDateTime: "yymmdd",
+  //     learnt: false
+  //   })
+  //     .then((response) => {
+  //       console.log("Post success:" + response)
+  //     });
+  // }
+
+  // function updatePost() {
+  //   axios.put(`${baseURL}/1`, {
+  //     word: "Vocab",
+  //     chinese: "Chinese",
+  //     addDateTime: "yymmdd",
+  //     learnt: false
+  //   })
+  //     .then((response) => {
+  //       console.log("Update success:" + response)
+  //     });
+  // }
 
   useEffect(() => { }, [rand])
 
@@ -93,37 +126,43 @@ export default function Mainpage() {
   return (
     <ThemeProvider theme={contenttheme}>
       <Grid container >
-        <Grid container xs={12} sx={{ height: '20vh', textAlign: 'center', justifyContent: 'center' }}>
-          <Paper elevation={10} sx={{ width: { xs: '100%', sm: '50%' }, height: { xs: '90%', sm: '90% ' }, mt: '2%' }}>
-            <Grid container sx={{ height: '18vh',  mb: '3%', alignItems: 'center', justifyContent: 'center' }}>
-              <Grid xs={3} >
-                <Typography color='#30334f' variant='h5'>
-                  Random Vocab:
-                </Typography>
+        <Grid container xs={12} sx={{ height: '20vh', minHeight: '120px', textAlign: 'center', justifyContent: 'center' }}>
+          <Paper elevation={10} sx={{ width: { xs: '100%', md: '60%' }, height: { xs: '90%', sm: '90% ' }, mt: '2%' }}>
+            <Grid container sx={{ height: '18vh', mb: '3%', alignItems: 'center', justifyContent: 'center' }}>
+              <Grid container xs={3} sx={{ justifyContent: 'center' }} >
+                <Grid>
+                  <Typography color='#30334f' sx={{ fontSize: { xs: '20px', sm: '25px', md: '35px', lg: '40px' } }}>
+                    Random Vocab:
+                  </Typography>
+                </Grid><Grid>
+                  <IconButton color='header' size='large' onClick={() => { getrand() }} sx={{ display: { xs: 'block', sm: 'none' } }} >
+                    <CasinoIcon />
+                  </IconButton>
+                </Grid>
               </Grid>
-              <Grid xs={5}>
-                <Typography color='#30334f' variant='h3'>
+              <Grid xs={8} sm={5} sx={{ overflowWrap: { xs: 'break-word', sm: 'normal' } }} >
+                <Typography color='#30334f' sx={{ fontSize: { xs: '30px', sm: '50px', lg: '65px' } }}>
                   {rand.word}
                 </Typography>
               </Grid>
-              <Grid xs={3}>
-                <IconButton color='header' size='large' onClick={() => { getrand() }} >
-                  <CasinoIcon />
+              <Grid xs={0} sm={3}>
+                <IconButton color='header' size='large' onClick={() => { getrand() }} sx={{ display: { xs: 'none', sm: 'block' } }} >
+                  <CasinoIcon fontSize='large' />
                 </IconButton>
               </Grid>
             </Grid>
           </Paper>
         </Grid>
 
-        <Grid container xs={12} sx={{ height: '90vh ', textAlign: 'center', justifyContent: 'center' }}>
-          <Paper elevation={10} sx={{ width: { xs: '100%', sm: '50%' }, height: { xs: '100%', sm: '80% ' }, mt: '5%', mb: '10%' }}>
+        <Grid container xs={12} sx={{ height: '70vh ', textAlign: 'center', justifyContent: 'center' }}>
+          <Paper elevation={10} sx={{ width: { xs: '100%', md: '60%' }, height: { xs: '100%', sm: '80% ' }, mt: '5%' }}>
             <Grid container sx={{ mt: '3%', alignItems: 'center' }}>
               <Grid xsOffset={3} smOffset={4} xs={5} sm={4}>
                 <Typography color='#30334f' variant='h4'>Today's Vocab</Typography>
               </Grid>
 
               <Grid xsOffset={1} xs={2} smOffset={0} sm={4} >
-                <Button onClick={() => { setopen(true) }} color="header" variant="contained" size={buttonSize} startIcon={<AddIcon />}>
+                <Button onClick={() => { setopen(true) }} color="header" variant="contained" sx={{ width: { xs: '90px', sm: '150px' } }} startIcon={<AddIcon />}>
                   Add Vocab
                 </Button>
                 <Dialog open={open} onClose={() => { setopen(false) }}  >
@@ -145,7 +184,7 @@ export default function Mainpage() {
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => { setopen(false) }} >Cancel</Button>
-                    <Button >Submit</Button>
+                    <Button onClick={() => { setopen(false) }}>Submit</Button>
                   </DialogActions>
                 </Dialog>
               </Grid>
@@ -184,7 +223,7 @@ export default function Mainpage() {
                           key={item.word}
                         //sx={{ '&:last-child td, &:last-child th': { border: 0 } }} //Useless in this prog
                         >
-                          <TableCell align='center' component="th" /* th = table header cell */ scope="item">
+                          <TableCell align='center' component="th" /* th = table header cell */ scope="item" sx={{ overflowWrap: { xs: 'break-word', sm: 'normal' } }}>
                             {item.word}
                           </TableCell>
                           <TableCell align='center' >{item.chinese}</TableCell>

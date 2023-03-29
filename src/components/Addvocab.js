@@ -1,3 +1,4 @@
+import axios from "axios";
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles'//import theme (to config some style) 
@@ -29,6 +30,19 @@ export default function Addvocab() {
             },
         },
     });
+    // const [baseURL, setBaseURL] = useState('API.com/');
+
+    // function createvocab() {
+    //     axios.post(baseURL, {
+    //         word: "Vocab",
+    //         chinese: "Chinese",
+    //         addDateTime: "yymmdd",
+    //         learnt: false
+    //     })
+    //         .then((response) => {
+    //             console.log("Post success:" + response)
+    //         });
+    // }
 
     return (
         <ThemeProvider theme={theme}>

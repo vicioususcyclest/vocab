@@ -49,9 +49,12 @@ export default function Header() {
             <List>
                 {navItems.map((item, i) => (
                     <ListItem key={item} disablePadding>
-                        <ListItemButton sx={{ textAlign: 'center' }} >
-                            <ListItemText primary={item} />
-                        </ListItemButton>
+                        <Link to={"/" + item.toLowerCase().replaceAll(' ', '')} style={{ textDecoration: 'none' }} key={item}>
+                            <ListItemButton sx={{ textAlign: 'center', color: 'black' }} >
+                                <ListItemText primary={item} />
+
+                            </ListItemButton>
+                        </Link>
                     </ListItem>
                 ))}
             </List>

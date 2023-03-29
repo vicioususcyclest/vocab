@@ -1,3 +1,4 @@
+import axios from "axios";
 import Grid from '@mui/material/Unstable_Grid2';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles'//import themeHis (to config some style) 
@@ -40,7 +41,25 @@ export default function History() {
         }
     };
 
+    // useEffect(() => {
+    //   axios.get(baseURL).then((response) => {
+    //     setData({ data: response.data });
+    //   });
+    // }, []);
 
+
+
+    // function updatePost() {
+    //   axios.put(`${baseURL}/1`, {
+    //     word: "Vocab",
+    //     chinese: "Chinese",
+    //     addDateTime: "yymmdd",
+    //     learnt: false
+    //   })
+    //     .then((response) => {
+    //       console.log("Update success:" + response)
+    //     });
+    // }
 
     useEffect(() => { }, [date])
 
@@ -102,12 +121,14 @@ export default function History() {
             setshowall('block')
             setSortBy('word');
             setSortOrder('asc');
+            //show all data
         } else {
             setshowday('block')
             setdisdate(false)
             setshowall('none')
             setSortBy('word');
             setSortOrder('asc');
+            //filter the data to that day
         }
     }
 
@@ -131,25 +152,29 @@ export default function History() {
             <Grid container >
                 <Grid container xs={12} sx={{ height: '90vh ', textAlign: 'center', justifyContent: 'center' }}>
                     <Paper elevation={10} sx={{ overflow: 'hidden', width: { xs: '100%', sm: '90%' }, height: { xs: '100%', sm: '80% ' }, mt: '5%', mb: '10%' }}>
-                        <Grid container sx={{ mt: '3%', alignItems: 'center', justifyContent: 'center' }}>
-                            <Grid >
-                                <FormGroup >
-                                    <FormControlLabel control={<Switch defaultChecked onChange={(event) => { setallorday(event.target.checked) }} />} label="All" labelPlacement="start" />
-                                </FormGroup>
+                        <Grid container sx={{ mt: '3%', alignItems: 'center', justifyContent: 'spaceEvenly' }}>
+                            <Grid container xsOffset={1} xs={2} sx={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <Grid xs={12} sm={2} sx={{ border: 'solid 1px red' }}>
+                                    <Typography sx={{ fontSize: { xs: '20px', sm: '25px' } }}>All</Typography>
+                                </Grid>
+                                <Grid xs={12} sm={2} sx={{ border: 'solid 1px red', }}>
+                                    <Switch defaultChecked onChange={(event) => { setallorday(event.target.checked) }} />
+                                </Grid>
                             </Grid>
-                            <Grid xs={6}>
+                            <Grid xs={9}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker value={date} onChange={(e) => setdate(e)} disabled={disdate} />
                                 </LocalizationProvider>
                             </Grid>
+                        </Grid>
+                        <Grid container sx={{ mt: '3%', alignItems: 'center', justifyContent: 'center' }}>
                             <Grid xs={10} >
                                 <TableContainer className="all" component={Paper} sx={{ maxHeight: '60vh', display: showall }}>
-                                    ALL
-                                    <Table stickyHeader  >
-                                        <TableHead>
-                                            <TableRow>
+                                    <Table stickyHeader sx={{ tableLayout: "fixed" }} >
+                                        <TableHead >
+                                            <TableRow >
 
-                                                <TableCell align='center'>
+                                                <TableCell align='center' >
                                                     <IconButton size="small" onClick={() => handleSort('word')} sx={{ fontFamily: themeHis.typography.fontFamily }}>
                                                         Vocab
                                                         {sortBy === 'word' && sortOrder === 'asc' && <ArrowDownwardIcon />}
@@ -185,7 +210,7 @@ export default function History() {
                                                     key={item.word}
                                                 //sx={{ '&:last-child td, &:last-child th': { border: 0 } }} //Useless in this prog
                                                 >
-                                                    <TableCell align='center' component="th" /* th = table header cell */ scope="item">
+                                                    <TableCell align='center' component="th" /* th = table header cell */ scope="item" sx={{ overflowWrap: { xs: 'break-word', sm: 'normal' } }}>
                                                         {item.word}
                                                     </TableCell>
                                                     <TableCell align='center' >{item.chinese}</TableCell>
@@ -195,7 +220,7 @@ export default function History() {
                                                             checked={item.learnt}
                                                         />
                                                     </TableCell>
-                                                    <TableCell align='center'>
+                                                    <TableCell align='center' sx={{ overflowWrap: { xs: 'break-word', sm: 'normal' } }}>
                                                         {new Date(item.addDateTime).getFullYear()}/{new Date(item.addDateTime).getMonth() + 1}/{new Date(item.addDateTime).getDate()}
                                                     </TableCell>
                                                 </TableRow>
@@ -204,8 +229,8 @@ export default function History() {
                                     </Table>
                                 </TableContainer>
                                 <TableContainer className="day" component={Paper} sx={{ maxHeight: '60vh', display: showday }}>
-                                    DAY
-                                    <Table stickyHeader  >
+
+                                    <Table stickyHeader sx={{ tableLayout: "fixed" }} >
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell align='center'>
@@ -244,7 +269,7 @@ export default function History() {
                                                     key={item.word}
                                                 //sx={{ '&:last-child td, &:last-child th': { border: 0 } }} //Useless in this prog
                                                 >
-                                                    <TableCell align='center' component="th" /* th = table header cell */ scope="item">
+                                                    <TableCell align='center' component="th" /* th = table header cell */ scope="item" sx={{ overflowWrap: { xs: 'break-word', sm: 'normal' } }}>
                                                         {item.word}
                                                     </TableCell>
                                                     <TableCell align='center' >{item.chinese}</TableCell>
@@ -254,7 +279,7 @@ export default function History() {
                                                             checked={item.learnt}
                                                         />
                                                     </TableCell>
-                                                    <TableCell align='center' >
+                                                    <TableCell align='center' sx={{ overflowWrap: { xs: 'break-word', sm: 'normal' } }} >
                                                         {new Date(item.addDateTime).getFullYear()}/{new Date(item.addDateTime).getMonth() + 1}/{new Date(item.addDateTime).getDate()}
                                                     </TableCell>
                                                 </TableRow>

@@ -6,10 +6,10 @@ import Toolbar from '@mui/material/Toolbar';
 export default function addvocab() {
     return (
         <Grid container sx={{ justifyContent: 'center', width: '100%', }}>
-            <Grid xs={12} maxWidth="xl">
+            <Grid xs={12}>
                 <Header />
             </Grid>
-            <Grid xs={12} maxWidth="xl">
+            <Grid xs={12}>
                 <Addvocab />
             </Grid>
 
