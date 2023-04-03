@@ -172,9 +172,18 @@ export default function Mainpage() {
                   </DialogTitle>
                   <DialogContent>
                     <DialogContentText >
-                      <Typography color='#30334f' > Please enter the vocab:</Typography>
+                      <Typography color='#30334f' component={'span'} > Please enter the vocab:</Typography>
                     </DialogContentText>
                     <TextField
+                      label="English"
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      fullWidth
+                      variant="standard"
+                    />
+                    <TextField
+                      label="Chinese"
                       autoFocus
                       margin="dense"
                       id="name"

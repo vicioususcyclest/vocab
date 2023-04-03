@@ -1,46 +1,20 @@
 {
     "data": [
         {
-            "word": "Apple",
-            "chinese": "蘋果",
-            "addDateTime": "2023-03-25T13:51:50.417-07:00",
-            "learnt": true,
-            "type": "v"
-        },
-        {
-            "word": "Dog",
-            "chinese": "狗",
-            "addDateTime": "2023-03-26T13:51:50.417-07:00",
+            "word": "revoke",
+            "chinese": "撤銷",
+            "addDateTime": "2023-03-25T13:51:50Z",
             "learnt": false,
             "type": "v"
         },
         {
-            "word": "Egg",
-            "chinese": "雞蛋",
-            "addDateTime": "2023-03-28T13:51:50.417-07:00",
+            "word": "alter",
+            "chinese": "改變",
+            "addDateTime": "2023-03-25T13:51:50Z",
             "learnt": false,
-            "type": "v"
-        },
-        {
-            "word": "FatASSSSSSSSSSSSSSSSSS",
-            "chinese": "肥胖的",
-            "addDateTime": "2023-03-28T13:51:50.417-07:00",
-            "learnt": true,
-            "type": "v"
-        },
-        {
-            "word": "Banana",
-            "chinese": "香蕉",
-            "addDateTime": "2023-03-25T13:51:50.417-07:00",
-            "learnt": false,
-            "type": "v"
-        },
-        {
-            "word": "Cat",
-            "chinese": "貓",
-            "addDateTime": "2023-03-25T13:51:50.417-07:00",
-            "learnt": true,
             "type": "v"
         }
     ]
 }
+
+
