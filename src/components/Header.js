@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
     const drawerWidth = 200;
-    const navItems = ['HOME', 'ADD VOCAB', 'HISTORY', 'TEST'];
+    const navItems = ['HOME', 'ADD VOCAB', 'HISTORY/MODIFY', 'TEST'];
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {

@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { Checkbox, useTheme, useMediaQuery, TextField, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useEffect, useState } from 'react';
-import Data from '../asset/data.json'
+// import Data from '../asset/data.json'
 import Randvbdata from '../asset/random.json'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -38,50 +38,66 @@ export default function Mainpage() {
   const [sortBy, setSortBy] = useState('word'); //Default sort state by vocab
   const [sortOrder, setSortOrder] = useState('asc');
   const [rand, setRand] = useState('');
-  // const [baseURL, setBaseURL] = useState('API.com/');
-  // const [Data, setData] = useState({ data: [] });
+  const [baseURL, setBaseURL] = useState('http://localhost:8080/');
+  const [tableData, setTableData] = useState({
+    data: {
+      data: [{
+        "word": "default",
+        "chinese": "default",
+        "addDateTime": "2023-03-25T13:51:50Z",
+        "learnt": false,
+        "type": "v"
+      }]
+    }
+  });
+  const [word, setword] = useState("")
+  const [chinese, setchinese] = useState("")
 
   function getrand() {
     var max = Math.floor(Randvbdata.Randvb.length);
     setRand(Randvbdata.Randvb[Math.floor(Math.random() * (max))])
   }
 
-  // useEffect(() => {
-  //   axios.get(baseURL).then((response) => {
-  //     setData({ data: response.data });
-  //   });
-  // }, []);
+  useEffect(() => {
+    axiosget()
+  }, []);
 
-  // function createvocab() {
-  //   axios.post(baseURL, {
-  //     word: "Vocab",
-  //     chinese: "Chinese",
-  //     addDateTime: "yymmdd",
-  //     learnt: false
-  //   })
-  //     .then((response) => {
-  //       console.log("Post success:" + response)
-  //     });
-  // }
+  useEffect(() => {
+    getrand()
+  }, []);
 
-  // function updatePost() {
-  //   axios.put(`${baseURL}/1`, {
-  //     word: "Vocab",
-  //     chinese: "Chinese",
-  //     addDateTime: "yymmdd",
-  //     learnt: false
-  //   })
-  //     .then((response) => {
-  //       console.log("Update success:" + response)
-  //     });
-  // }
+  function axiosget() {
+    axios.get(baseURL).then((response) => {
+      setTableData({ data: response.data });
+    }).catch((e) => { console.log(e) });
+
+  }
+
+  function handleadd() {
+    axios.post(baseURL, {
+      word: word,
+      chinese: chinese,
+      addDateTime: new Date().toISOString(),
+      learnt: false,
+      type: 'v'
+    })
+      .then((response) => {
+        console.log("Post success:" + response)
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    axiosget()
+    setopen(false)
+    window.location.reload();
+  }
 
   useEffect(() => { }, [rand])
 
   const newdata = () => {
-    const unique1 = Data.data.filter((obj, index) => {
+    const unique1 = tableData.data.data.filter((obj, index) => {
       var today = new Date();
-      return (index === Data.data.findIndex(o => obj.word === o.word) &&
+      return (index === tableData.data.data.findIndex(o => obj.word === o.word) &&
         new Date(obj.addDateTime).getDate() === today.getDate() &&
         new Date(obj.addDateTime).getMonth() === today.getMonth() &&
         new Date(obj.addDateTime).getFullYear() === today.getFullYear()
@@ -91,7 +107,8 @@ export default function Mainpage() {
     return unique1
   }
 
-  const handleSort = (column) => { //function to change the asc/desc after clicking
+  const handleSort = (column) => {
+    //function to change the asc/desc after clicking
     if (sortBy === column) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
@@ -176,24 +193,26 @@ export default function Mainpage() {
                     </DialogContentText>
                     <TextField
                       label="English"
-                      autoFocus
                       margin="dense"
                       id="name"
                       fullWidth
                       variant="standard"
+                      value={word}
+                      onChange={(e) => { setword(e.target.value) }}
                     />
                     <TextField
                       label="Chinese"
-                      autoFocus
                       margin="dense"
                       id="name"
                       fullWidth
                       variant="standard"
+                      value={chinese}
+                      onChange={(e) => { setchinese(e.target.value) }}
                     />
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => { setopen(false) }} >Cancel</Button>
-                    <Button onClick={() => { setopen(false) }}>Submit</Button>
+                    <Button onClick={() => { handleadd() }}>Submit</Button>
                   </DialogActions>
                 </Dialog>
               </Grid>
@@ -239,7 +258,7 @@ export default function Mainpage() {
                           <TableCell align='center'>
                             <Checkbox
                               disableRipple
-                              checked={item.learnt}
+                              checked={Boolean(item.learnt)}
                             />
                           </TableCell>
                         </TableRow>

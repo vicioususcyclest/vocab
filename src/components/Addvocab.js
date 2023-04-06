@@ -30,19 +30,29 @@ export default function Addvocab() {
             },
         },
     });
-    // const [baseURL, setBaseURL] = useState('API.com/');
 
-    // function createvocab() {
-    //     axios.post(baseURL, {
-    //         word: "Vocab",
-    //         chinese: "Chinese",
-    //         addDateTime: "yymmdd",
-    //         learnt: false
-    //     })
-    //         .then((response) => {
-    //             console.log("Post success:" + response)
-    //         });
-    // }
+    function handleadd() {
+        axios.post(baseURL, {
+            word: word,
+            chinese: chinese,
+            addDateTime: new Date().toISOString(),
+            learnt: false,
+            type: 'v'
+        })
+            .then((response) => {
+                console.log("Post success:" + response)
+                alert("Post success!")
+                setword("")
+                setchinese("")
+            })
+            .catch((err) => {
+                console.log(err)
+            });;
+
+    }
+    const [baseURL, setbaseURL] = useState("http://localhost:8080")
+    const [word, setword] = useState("")
+    const [chinese, setchinese] = useState("")
 
     return (
         <ThemeProvider theme={theme}>
@@ -57,15 +67,28 @@ export default function Addvocab() {
                         <Typography color='#30334f' variant='h5'> Please enter the vocab:</Typography>
                         {/* </DialogContentText> */}
                         <TextField
+                            label="English"
                             autoFocus
                             margin="dense"
                             id="name"
                             fullWidth
                             variant="standard"
+                            value={word}
+                            onChange={(e) => { setword(e.target.value) }}
+                        />
+                        <TextField
+                            label="Chinese"
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            fullWidth
+                            variant="standard"
+                            value={chinese}
+                            onChange={(e) => { setchinese(e.target.value) }}
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button variant='contained' color='header'>Submit</Button>
+                        <Button variant='contained' color='header' onClick={() => { handleadd() }}>Submit</Button>
                     </DialogActions>
                 </Grid>
             </Grid>

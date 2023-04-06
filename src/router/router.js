@@ -14,7 +14,7 @@ export default function router() {
             <Route path='/home' element={<Navigate to="/" replace />} />
             <Route path="/" element={<MainpageCon />} />
             <Route path="/addvocab" element={<AddvocabCon />} />
-            <Route path="/history" element={<HistoryCon />} />
+            <Route path="/history/modify" element={<HistoryCon />} />
             <Route path="/test" element={<TestCon />} />
         </Routes>
     )
