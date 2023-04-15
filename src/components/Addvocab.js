@@ -68,7 +68,6 @@ export default function Addvocab() {
                         {/* </DialogContentText> */}
                         <TextField
                             label="English"
-                            autoFocus
                             margin="dense"
                             id="name"
                             fullWidth
@@ -78,7 +77,6 @@ export default function Addvocab() {
                         />
                         <TextField
                             label="Chinese"
-                            autoFocus
                             margin="dense"
                             id="name"
                             fullWidth

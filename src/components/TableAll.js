@@ -40,6 +40,7 @@ export default function Example() {
     });
 
 
+    const [delword, setDelWord] = useState("");
     const [delopen, setDelOpen] = useState(false);
     const [editopen, setEditOpen] = useState(false);
     const [editingdata, seteEditingData] = useState(
@@ -51,7 +52,6 @@ export default function Example() {
             type: "v"
         }
     )
-    const [editdate, setEditDate] = useState("")
     const [baseURL, setbaseURL] = useState("http://localhost:8080")
     const [tableData, setTableData] = useState({
         data: {
@@ -81,13 +81,14 @@ export default function Example() {
         });
     }
 
-    useEffect(() => { }, [editdate])
     useEffect(() => { }, [editingdata])
     useEffect(() => { }, [delopen])
     useEffect(() => { }, [editopen])
+    useEffect(() => { }, [delword])
 
-    const handleDeleteOpen = () => {
+    const handleDeleteOpen = (row) => {
         setDelOpen(true);
+        setDelWord(row.original.word)
     };
 
     const handleDeleteClose = () => {
@@ -97,7 +98,7 @@ export default function Example() {
     const handleDeleteSubmit = () => {
 
         axios.delete(`${baseURL}/word`, {
-            word: editingdata.word,
+            params: { word: delword },
         })
             .then((response) => {
                 console.log("Delete success:" + response)
@@ -106,6 +107,7 @@ export default function Example() {
                 console.log(err)
             });
         axiosget()
+        window.location.reload();
         setDelOpen(false);
     };
 
@@ -133,6 +135,7 @@ export default function Example() {
                 console.log(err)
             });
         axiosget()
+        window.location.reload();
         setEditOpen(false);
     };
 
@@ -222,7 +225,7 @@ export default function Example() {
                 <Dialog open={editopen} onClose={handleEditClose}>
                     <DialogTitle>Edit Item</DialogTitle>
                     <DialogContent>
-                        <Grid contatiner>
+                        <Grid>
                             <TextField
                                 margin="dense"
                                 label="Word"
@@ -237,6 +240,7 @@ export default function Example() {
                                 fullWidth
                                 variant="standard"
                                 value={editingdata.chinese}
+                                onChange={(e) => { seteEditingData({ ...editingdata, chinese: e.target.value }) }}
                             />
                             <Grid container sx={{ alignItems: "center" }}>
                                 <Grid xs={12} sx={{ mr: 2 }}>
@@ -244,7 +248,7 @@ export default function Example() {
                                 </Grid>
                                 <Grid xs={12}>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DatePicker value={dayjs(editingdata.addDateTime)} onChange={(e) => { setEditDate(e); seteEditingData({ ...editingdata, addDateTime: e.toISOString() }); }} />
+                                        <DatePicker value={dayjs(editingdata.addDateTime)} onChange={(e) => { seteEditingData({ ...editingdata, addDateTime: e.toISOString() }); }} />
                                     </LocalizationProvider>
                                 </Grid>
                             </Grid>
@@ -254,7 +258,7 @@ export default function Example() {
                                     <Typography >Learnt:</Typography>
                                 </Grid>
                                 <Grid xs={12}>
-                                    <Checkbox checked={editingdata.learnt} onChange={(e) => { seteEditingData({ ...editingdata, learnt: e.target.checked }) }} />
+                                    <Checkbox checked={Boolean(editingdata.learnt)} onChange={(e) => { seteEditingData({ ...editingdata, learnt: e.target.checked }) }} />
                                 </Grid>
                             </Grid>
                         </Grid>
